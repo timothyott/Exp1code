@@ -124,5 +124,5 @@ def exit_survey():
 
 if __name__ == '__main__':
     init_db(app)
-    app.run()
+    app.run(host='0.0.0.0')
 #Add host='0.0.0.0' to the run command to make it open to the world.

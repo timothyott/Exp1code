@@ -1,0 +1,57 @@
+{% extends "main_template.html" %}
+{% block content %}
+    <h3>Select one of the three choices below or select "No Action" to only pursue on-going oppotunities.</h3>
+    <form action="{{ url_for('make_choice') }}" method=post class=make-choice>
+    <table width="100%" class="choices">
+        <tr><th width="10%">Title</td><th width="30%">Description</td><th width="17%">Attributes</td><th width="33%">Features Needed</td><th width="10%">Select</td></tr>
+    {% for choice in choices %}
+        <tr>
+            <td class="left">{{ choice.title }}</td>
+            <td>{{ choice.text|safe }}</td>
+            <td class="left"><ul>{% for attr in choice.get_obs_attributes() %}
+                        <li> {{attr['type']}}: {{attr['label']}}</li>
+                {% endfor %}
+                </ul>
+            </td>
+            <td>{% for feature in choice.feature_desc() %}
+                <b>{{feature['label']}}:</b> {{feature['desc']}},
+                {% endfor %}
+            </td>
+            <!--<td><ul>{% for feature in choice.feature_desc() %}
+                    <li>{{feature['label']}}: {{feature['desc']}}</li>
+                {% endfor %}
+                </ul>
+            </td>-->
+            <td><input type="radio" name="choice" value={{choice.id}}></td>
+        </tr>
+    {% endfor %}
+        <tr>
+            <td><h3> No Action </h3></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><input type="radio" name="choice" value=1></td>
+        </tr>
+    </table>
+    <br>
+    <div>
+    <h3>Please select how you are going to pursue the opportunity.</h3>
+    {% for proc, options in proc_name.iteritems() %}
+        <div>
+            {{proc}}: 
+            <select name="{{proc}}">
+                {% for option in options %}
+                    <option value={{option.id}}>{{option.label}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endfor %}
+    </div>
+    <div>
+        Support your decision here:<br>
+        <textarea name=support rows=5 cols=40></textarea>
+        <br>
+        <input type=submit value=Submit>
+    </div>
+    </form>
+{% endblock content %}

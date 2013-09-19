@@ -1,0 +1,26 @@
+id,label,desc
+1,Pay,Pay rent to landlord
+2,Split,Split bills among roommates
+3,Assign,Assign people to rooms
+4,Groceries,Create grocery lists
+5,Chores,Set chore schedules
+6,Sublets,Manage sublets
+7,Roommate Finder,Help managing the roommate finding process
+8,Reservations,Reserve community amenities
+9,Packages,Package notification for residents
+10,Maintenance,Online maintenance requests
+11,Vacancy,Track vacancies and help with the process of finding new tenants
+12,Application,Allow potential tenants to submit applications electronically
+13,Visitor,Log vistors in and control parking passes
+14,Entry,Scan for entry and remote entry (buzzing people in)
+15,Matching,Roommate matching
+16,Billing interface,Link to utilities to allow for electronic payment
+17,Advertising,Allow landlords to sell advertising space to local businesses
+18,Calendar,Shared calendars for roommates and communities
+19,Calendar plus,"Shared calendar can be set at any level (building, floor, community, etc)"
+20,Community planning,Tools for planning and running community events
+21,Move in or out,"Tools for scheduling elevators, scheduling cleanings, reporting inspections, etc."
+22,Dynamic utilities,Tools for tracking utility usage per tenant
+23,Charge and payment history,Allow both tenant and landlord to see the charge and payment history between the two
+24,Screening,Built in credit and background screening
+25,Neighbor connect,Reach out to and get to know your neighbors through the applicaiton.

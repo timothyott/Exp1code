@@ -1,0 +1,59 @@
+
+body{
+    margin-left:20px;
+}
+
+p
+{
+    text-align:left;
+    color:black;
+    font-family:arial;
+    text-indent:50px;
+}
+
+div{
+    margin-bottom:10px;
+}
+
+h1{
+
+}
+
+h2{
+
+}
+
+h3{
+
+}
+
+table.choices{
+    text-align:justify;
+    border-collapse:collapse;
+}
+table.choices th, table.choices td{
+    border-width: 1px;
+    border-color: #666666;
+    border-style: solid;
+}
+td.left{
+    text-align:left;
+}
+
+table.review{
+    border-width: 1px;
+    border-color: #666666;
+    border-style: solid;
+    border-collapse:collapse;
+}
+
+table th, td{
+    padding:8px;   
+}
+
+table tr{
+    padding:8px;
+    border-bottom-width: 1px;
+    border-bottom-color: #666666;
+    border-bottom-style: solid;
+}

@@ -1,0 +1,44 @@
+{% extends "main_template.html" %}
+{% block content %}
+    <p> The following is a very simple business simulation where you will be playing the role of the entrepreneur leading a new company.
+    Your task is to choose which opportunities for growth to pursue to successfully add more customers.  In each round of the simulation you
+    will be asked to choose one of three customer opportunities (or to choose to do nothing that round) and to choose how you plan on executing
+    that opportunity. If you choose to do nothing your firm will only work on ongoing projects for that found. You will receive feedback between
+    rounds on whether you have been successful or failed. There will be 20 decision rounds.
+    </p>
+    <h2> Product Description </h2>
+    <p> The name of your company is Rental Property, Inc. The name of the product is Live With Me. You have created a new software platform meant
+    to simplify living in and managing shared residences (apartments, houses, etc.). Your inspiration for the product came from personal experience
+    dealing with roommates and landlords in shared living situations. The idea was spurred forward even more by recent reports that more people are
+    renting longer and putting off buying places to live due to the economy and the continued trend towards holding multiple jobs in multiple areas of
+    the country before settling down.
+    </p>
+    <p> The roommate facing part of the product consists of a web/mobile interface. Each roommate creates an individual account for the service and is
+    linked to the residence account created by one of the roommates and shared with the others. The residence link allows users to digitize various shared
+    living activities. Currently the only feature built in is that roommates can enter expenses into the system to split the cost among them.
+    </p>
+    <p> The landlord part of the product consists of a software solution that allows landlords to more efficiently manage their properties. Landlords can
+    choose to interact with their residents via the ability to accept rent payments via credit card or PayPal, have renters submit online maintenance
+    requests, and send out package notifications. You plan to continue to add to the functionality as customers request it.
+    </p>
+    <h2> Choices </h2>
+    <p> Each round you will see descriptions of three opportunities for customers you could try and sell to. The customers vary in the type of residence,
+    size, location, and the people that live there. The customers also vary in the features that they would want added before they will buy from you.
+    </p>
+    <p> Along with choosing a customer you will have to make two choices about how to sell to that customer: Channel and Pricing. Channel refers to the
+    way in which you will approach that customer. Pricing is how the customer will agree to pay you for the product. Different execution choices may be
+    more effective for different opportunities. Below are descriptions of the choices you can make for each.
+    </p>
+    
+    {% for proc, options in proc_name.iteritems() %}
+        <h4>{{proc}}</h4>
+        <ul>
+                {% for option in options %}
+                    <li>{{option.label}}: {{option.desc}} </li>
+                {% endfor %}
+        </ul>
+    {% endfor %}
+    <form action="{{ url_for('display_choices') }}" method=post class=next-choice>
+        <input type=submit value="Begin">
+    </form>
+{% endblock content %}

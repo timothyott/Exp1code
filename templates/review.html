@@ -1,0 +1,86 @@
+{% extends "main_template.html" %}
+{% block content %}
+    <div>
+    Your choice this round (round {{user_choice.round}}): <br>
+    Choice: {{user_choice.title}} <br>
+    {% for proc in user_choice.get_procs() %}
+        {{proc['type']}}: {{proc['desc']}}<br>
+    {% endfor %}
+    </div>
+    <div>
+        {% if complete %}
+            Your firm successfully completed {{ complete|count }} opportunity(ies) this round! See below for details.<br>
+            <table class="review">
+                <tr><th>Decision Round</td><td>Choice</td><th>Completed Value</td></tr>
+                {% for choice in complete %}
+                    <tr><td>{{choice.round}}</td>
+                    <td>{{choice.title}}</td>
+                    <td>{{choice.final_value}}</td></tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            No opportunities were completed this round.
+        {% endif %}
+    </div>
+    <div>
+        {% if ongoing %}
+            Your firm has {{ ongoing|count }} on-going opportunity(ies) this round. See below for details.<br>
+            <table class="review">
+                <tr><th>Decision Round</td><th>Choice</td><th>Procedures</td></tr>
+                {% for choice in ongoing %}
+                    <tr><td>{{choice.round}}</td>
+                    <td>{{choice.title}}</td>
+                    <td>{% for proc in choice.get_procs() %}
+                            {{proc['type']}}: {{proc['desc']}}<br>
+                        {% endfor %}</td></tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            No opportunities are on-going this round.
+        {% endif %}
+    </div>
+    <div>
+        {% if failed %}
+            Your firm failed to execute {{ failed|count }} opportunity(ies) this round! See below for details.<br>
+            <table class="review">
+                <tr><th>Decision Round</td><th>Choice</td><th>Procedures</td></tr>
+                {% for choice in failed %}
+                    <tr><td>{{choice.round}}</td>
+                    <td>{{choice.title}}</td>
+                    <td>{% for proc in choice.get_procs() %}
+                            {{proc['type']}}: {{proc['desc']}}<br>
+                        {% endfor %}</td></tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            No opportunities were lost this round.
+        {% endif %}
+    </div>
+    <div>
+        Your firm's total value captured through this round is: {{current_user.get_value()}}
+    </div>
+    {% with features = get_flashed_messages(category_filter=["feature"]) %}
+    {% if features %}
+    <div>
+        {{features[0]}}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div>
+    Your current product features:
+    <ul>
+        {% for feature in current_user.product_desc() %}
+            <li>{{feature['label']}}: {{feature['desc']}}</li>
+        {% endfor %}                               
+    </ul>
+    </div>
+    {% if user_choice.round < 20 %}
+    <form action="{{ url_for('display_choices') }}" method=post class=next-choice>
+        <input type=submit value="Make next decision">
+    </form>
+    {% else %}
+    <form action="{{ url_for('exit_survey') }}" method=post class=next-choice>
+        <input type=submit value="Finish">
+    </form>
+    {% endif %}
+{% endblock content %}

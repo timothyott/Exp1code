@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="static/style.css" />
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="container">
+    <div id="header">
+        <h1> Rental Property, Inc. Simulation </h1>
+    </div>
+    {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+    {% endfor %}
+
+    <div id="content">{% block content %}{% endblock %}</div>
+
+    <div class=metanav>
+      {% if not current_user.id %}
+        <a href="{{ url_for('login') }}">log in</a>
+      {% else %}
+        <a href="{{ url_for('logout') }}">log out</a>
+      {% endif %}
+    </div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2013 by <a href="http://domain.invalid/">Timothy Ott</a>.
+        {% endblock %}
+    </div>
+    </div>
+</body>
+</html>

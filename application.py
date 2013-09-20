@@ -13,26 +13,27 @@ from user import *
 from choice import *
 
 # create our little application :)
-app = Flask(__name__)
-app.config.from_pyfile('config.py')
-app.secret_key = app.config['SECRET_KEY']
+#adding a comment to make sure this changes take.
+application = Flask(__name__)
+application.config.from_pyfile('config.py')
+application.secret_key = application.config['SECRET_KEY']
 
 #Set the debug mode
-app.debug = True
+application.debug = True
 
 #function to connect to db
         
 #db functions from example
-@app.before_request
+@application.before_request
 def before_request():
-    g.db = connect_db(app)
+    g.db = connect_db(application)
 
-@app.teardown_request
+@application.teardown_request
 def teardown_request(exception):
     g.db.close()
 
 login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager.init_app(application)
 login_manager.login_view = "login"
 
 @login_manager.user_loader
@@ -44,11 +45,11 @@ def load_user(user_id):
         return None
 
 # The actual app 
-@app.route('/')
+@application.route('/')
 def index():
     return redirect(url_for('login'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@application.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     user_hash = None
@@ -66,13 +67,13 @@ def login():
                 return redirect(url_for('instructions'))
     return render_template('login.html', error=error, user_hash=user_hash)
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     logout_user()
     flash('You were logged out')
     return redirect(url_for('login'))
 
-@app.route('/instructions', methods=['GET','POST'])
+@application.route('/instructions', methods=['GET','POST'])
 @login_required
 def instructions():
     flash('Welcome user ' + str(current_user.id) + '!')
@@ -89,7 +90,7 @@ def instructions():
         proc_name[proc['type']] =  proc_option
     return render_template('intro.html', proc_name=proc_name)
 
-@app.route('/choices', methods=['GET','POST'])
+@application.route('/choices', methods=['GET','POST'])
 @login_required
 def display_choices():
     choices = choose_options()
@@ -101,14 +102,14 @@ def display_choices():
         proc_name[proc['type']] =  proc_option
     return render_template('choices.html', choices=choices, proc_name=proc_name)
 
-@app.route('/make_choice', methods=['POST'])
+@application.route('/make_choice', methods=['POST'])
 @login_required
 def make_choice():  
     decision_processing()
     flash('Choice was successfully made')
     return redirect(url_for('review_choice'))
 
-@app.route('/review_choice', methods=['GET'])
+@application.route('/review_choice', methods=['GET'])
 @login_required
 def review_choice():
     choice_info = current_user.get_last_choice()
@@ -117,12 +118,12 @@ def review_choice():
     failed = current_user.get_choices('F', session['round']-1)
     return render_template('review.html', user_choice=choice_info, ongoing=ongoing, complete=complete, failed=failed)
 
-@app.route('/exit_survey', methods=['GET','POST'])
+@application.route('/exit_survey', methods=['GET','POST'])
 @login_required
 def exit_survey():
     return render_template('exit_survey.html')
 
 if __name__ == '__main__':
-    init_db(app)
-    app.run(host='0.0.0.0')
+    init_db(application)
+    application.run(host='0.0.0.0')
 #Add host='0.0.0.0' to the run command to make it open to the world.

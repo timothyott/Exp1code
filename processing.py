@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, g, abort, flash
 from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin, AnonymousUser,
+                            login_user, logout_user, UserMixin, AnonymousUserMixin,
                             confirm_login, fresh_login_required)
 from database import *
 from user import *

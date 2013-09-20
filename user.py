@@ -1,5 +1,5 @@
 from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin, AnonymousUser,
+                            login_user, logout_user, UserMixin, AnonymousUserMixin,
                             confirm_login, fresh_login_required)
 from database import *
 from choice import *
@@ -107,6 +107,6 @@ class User(UserMixin):
         resources = resource_base + value
         return resources
 
-class Anonymous(AnonymousUser):
+class Anonymous(AnonymousUserMixin):
     name = u"Anonymous"
 

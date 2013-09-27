@@ -7,13 +7,14 @@ from choice import *
 #User stuff
 class User(UserMixin):
     def __init__(self, user_id):
-        user = query_db('select user_id, password, active_flag from users where user_id = ?', [user_id], one=True)
+        user = query_db('select user_id, password, active_flag, treatment from users where user_id = ?', [user_id], one=True)
         if user:
             self.id = user_id
             self.active = user['active_flag']
             self.password = user['password']
             self.exists = True
             self.set_product()
+            self.treatment=user['treatment']
         else:
             self.exists = False
 

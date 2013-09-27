@@ -1,5 +1,6 @@
 {% extends "main_template.html" %}
 {% block content %}
+{% from "_formhelpers.html" import render_field %}
   <h2>Login</h2>
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}
     <br>
@@ -7,11 +8,9 @@
   {% endif %}
   <form action="{{ url_for('login') }}" method=post>
     <dl>
-      <dt>User ID:
-      <dd><input type=text name=userID>
-      <dt>Password:
-      <dd><input type=password name=password>
-      <dd><input type=submit value=Login>
+      {{ render_field(form.userID) }}
+      {{ render_field(form.password) }}
+      <dd>{{ form.submit()}}
     </dl>
   </form>
 {% endblock %}

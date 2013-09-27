@@ -6,6 +6,8 @@ from database import *
 from user import *
 from choice import *
 import random
+import string
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def decision_processing():
     #flash('Doing a bunch of stuff here')
@@ -111,5 +113,30 @@ def choose_options():
     g.db.commit()
     return choices
 
+def str_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
 
+def newUserProcessing():
+    #seed random number generator
+    random.seed()
+    #generate a random password
+    password = str_generator()
+    #hash password
+    user_hash = generate_password_hash(password)
+    #randomly assign to condition
+    condition = str_generator(1,"CAMTU")
+    #insert user
+    cur = g.db.cursor()
+    cur.execute('insert into users (password, active_flag, treatment) values (?, ?, ?)',
+                 [user_hash, 1, condition])
+    userID = cur.lastrowid
+    g.db.commit()
+    #insert user/feature combos
+    features = [1, 2, 9, 10]
+    for feature in features:
+        g.db.execute('insert into user_feature (user_id, feature_id) values (?, ?)',
+                    [userID, feature])
+    g.db.commit()
+    #pass user/password back
+    return {'userID':userID, 'password':password}
             

@@ -1,6 +1,6 @@
 drop table if exists users;
 create table users (
-    user_id integer primary key not null,
+    user_id integer primary key autoincrement,
     password not null,
     active_flag bit not null,
     treatment string not null
@@ -15,7 +15,7 @@ create table choices (
     
 drop table if exists attributes;
 create table attributes (
-    id integer primary key autoincrement,
+    id integer primary key AUTOINCREMENT,
     type string not null,
     label string not null,
     level int,

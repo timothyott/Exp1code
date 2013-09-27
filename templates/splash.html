@@ -1,0 +1,12 @@
+{% extends "main_template.html" %}
+{% block content %}
+  <h2>Welcome!</h2>
+  <p class=splash>Thanks for helping me out! Click below and you will automatically be logged in.
+    <br>
+  <form action="{{ url_for('newuser') }}" method=post>
+    <dl>
+      {{ form.hidden_tag() }}
+      {{ form.submit() }}
+    </dl>
+  </form>
+{% endblock %}

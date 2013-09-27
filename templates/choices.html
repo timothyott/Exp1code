@@ -3,7 +3,7 @@
     <h3>Select one of the three choices below or select "No Action" to only pursue on-going oppotunities.</h3>
     <form action="{{ url_for('make_choice') }}" method=post class=make-choice>
     <table width="100%" class="choices">
-        <tr><th width="10%">Title</td><th width="30%">Description</td><th width="17%">Attributes</td><th width="33%">Features Needed</td><th width="10%">Select</td></tr>
+        <tr><th width="10%">Title</td><th width="45%">Description</td><th width="17%">Attributes</td><th width="23%">Features Needed (Hover over for more info)</td><th width="5%">Select</td></tr>
     {% for choice in choices %}
         <tr>
             <td class="left">{{ choice.title }}</td>
@@ -13,16 +13,16 @@
                 {% endfor %}
                 </ul>
             </td>
-            <td>{% for feature in choice.feature_desc() %}
-                <b>{{feature['label']}}:</b> {{feature['desc']}},
-                {% endfor %}
+            <td><ul>{% for feature in choice.feature_desc() %}
+                <li><span title="{{feature['desc']}}"><b>{{feature['label']}}</b>,</span></li>
+                {% endfor %}</ul>
             </td>
             <!--<td><ul>{% for feature in choice.feature_desc() %}
                     <li>{{feature['label']}}: {{feature['desc']}}</li>
                 {% endfor %}
                 </ul>
             </td>-->
-            <td><input type="radio" name="choice" value={{choice.id}}></td>
+            <td><input type="radio" name="choice" required value={{choice.id}}></td>
         </tr>
     {% endfor %}
         <tr>
@@ -48,7 +48,7 @@
     {% endfor %}
     </div>
     <div>
-        Support your decision here:<br>
+        Explain your decision here:<br>
         <textarea name=support rows=5 cols=40></textarea>
         <br>
         <input type=submit value=Submit>

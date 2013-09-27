@@ -11,6 +11,8 @@ from flask.ext.login import (LoginManager, current_user, login_required,
 from database import *
 from user import *
 from choice import *
+from flask.ext.wtf import Form
+from myForms import *
 
 # create our little application :)
 #adding a comment to make sure this changes take.
@@ -47,13 +49,26 @@ def load_user(user_id):
 # The actual app 
 @application.route('/')
 def index():
-    return redirect(url_for('login'))
+    return redirect(url_for('newuser'))
+
+@application.route('/newuser', methods=['GET','POST'])
+def newuser():
+    if request.method == 'POST':
+        newuser = newUserProcessing()
+        user = User(newuser['userID'])
+        if login_user(user):
+            session['round'] = 1
+            return redirect(url_for('instructions')) 
+    form = RegistrationForm()
+    return render_template('splash.html', form=form)
+    
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     user_hash = None
     if request.method == 'POST':
+        form = LoginForm()
         user = User(request.form['userID'])
         user_hash = generate_password_hash(request.form['password'])
         if not user.exists:
@@ -65,7 +80,8 @@ def login():
                 session['round'] = 1
                 #flash('You were logged in')
                 return redirect(url_for('instructions'))
-    return render_template('login.html', error=error, user_hash=user_hash)
+    form = LoginForm()
+    return render_template('login.html', error=error, user_hash=user_hash, form=form)
 
 @application.route('/logout')
 def logout():
@@ -96,8 +112,11 @@ def display_choices():
     choices = choose_options()
     proc_type = query_db('select distinct type from procedures')
     proc_name = dict()
+    sort = 'ASC'
+    if current_user.treatment > 'M':
+        sort = 'DESC'
     for proc in proc_type:
-        proc_option = query_db('select id, type, label, desc from procedures WHERE type = ? order by id asc',
+        proc_option = query_db('select id, type, label, desc from procedures WHERE type = ? order by id '+sort,
                                    [proc['type']])
         proc_name[proc['type']] =  proc_option
     return render_template('choices.html', choices=choices, proc_name=proc_name)
